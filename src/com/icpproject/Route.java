@@ -82,7 +82,6 @@ public class Route {
     }
 
     static HashMap<String, ArrayList<Route>> routesMap = new HashMap<String, ArrayList<Route>>();
-
     /**
      * Reading the routes csv file
      * @return - a hashmap with the code and the destinations
@@ -122,6 +121,4 @@ public class Route {
         }
         return routesMap;
     }
-
-
 }

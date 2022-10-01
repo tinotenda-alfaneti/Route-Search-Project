@@ -20,6 +20,13 @@ public class RouteSearch {
         if (routesMap.containsKey(airportCode)) {
             dest = routesMap.get(airportCode);
         }
+        else if (airportCode.equals("\\N")) {
+            try {
+                throw new CityNotFoundException("Sorry our files do not have the code for your city");
+            } catch (CityNotFoundException cnfe) {
+                System.out.println(cnfe.getMessage());
+            }
+        }
         return dest;
     }
 
@@ -30,6 +37,7 @@ public class RouteSearch {
      * @return - the RouteNode of the final step
      */
     public static RouteNode aStar(String startCity, String destCity){
+
 
         Route route = new Route(startCity);
         RouteNode start = new RouteNode(route);
@@ -53,10 +61,11 @@ public class RouteSearch {
                 return shortRoute;
             }
             explored.add(shortRoute);
-            System.out.println("Still Searching..., currently at " + shortRoute.getRoute().getAirportCode());
+            System.out.println("Still Searching..., currently at " + shortRoute.getRoute().getAirportCode() +
+                    " Distance: " + shortRoute.getDistance());
 
             //Generating the neighbouring routes
-            ArrayList<Route> destinations = getDestinations(Route.readRoutesFile(),
+            ArrayList<Route> destinations = getDestinations(Route.getRoutesMap(),
                     shortRoute.getRoute().getAirportCode());
 
             for (Route destination : destinations) {
@@ -91,7 +100,7 @@ public class RouteSearch {
             explored.add(shortRoute);
         }
 
-
+        System.out.println("Route not found");
         return null;
     }
 

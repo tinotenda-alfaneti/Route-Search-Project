@@ -10,7 +10,11 @@ import java.util.Scanner;
 
 public class ReadAndWrite {
 
-    public ArrayList<String[]> readInputFile() {
+    /**
+     * Mryhod for reading input file
+     * @return - list of inputs
+     */
+    public static ArrayList<String[]> readInputFile() {
         ArrayList<String[]> inputFileData = new ArrayList<String[]>();
         try {
             Scanner inputsFile = new Scanner(new File("inputfile.csv"));
@@ -19,15 +23,25 @@ public class ReadAndWrite {
                 String[] res = inputsFile.nextLine().split(",");
                 inputFileData.add(res);
             }
+            if (inputFileData.size() == 0)
+                throw new InputFileEmptyException();
             inputsFile.close();
 
         } catch (FileNotFoundException fnf) {
             fnf.printStackTrace();
+        } catch (InputFileEmptyException ife) {
+            System.out.println("The input file is empty\n");
+            System.out.println("Edit the inputfile.csv");
+            System.exit(10);
+
         }
         return inputFileData;
     }
 
-    //TODO: Change the working of this method. It should used the already created fileOutPutData
+    /**
+     * Method to get airport code
+     * @return - airport code
+     */
     public String getSourceAirportCode() {
 
         //Get airport code for the given city and country
@@ -47,11 +61,15 @@ public class ReadAndWrite {
         }
         else {
             System.out.println("The city/country is not it the list we have sorry");
+            System.out.println("Edit the inputfile.csv");
         }
         return airportCode;
     }
 
-    //TODO: Also change this method
+    /**
+     * Method to get destination airport code
+     * @return - Airport code
+     */
     public String getDestAirportCode(){
 
         HashMap<ArrayList<String>, String> countries = readAirportsFile();
@@ -60,17 +78,25 @@ public class ReadAndWrite {
         ArrayList<String[]> fileOutput = readInputFile();
         String destCode = "";
         ArrayList<String> cityCountry = new ArrayList<String>();
-        cityCountry.add(fileOutput.get(1)[0]);
-        cityCountry.add(fileOutput.get(1)[1]);
-        if (countries.containsKey(cityCountry)) {
-            destCode = countries.get(cityCountry);
+        try {
+            cityCountry.add(fileOutput.get(1)[0]);
+            cityCountry.add(fileOutput.get(1)[1]);
+            if (countries.containsKey(cityCountry)) {
+                destCode = countries.get(cityCountry);
 
+            }
+            return destCode;
         }
-        return destCode;
+        catch (ArrayIndexOutOfBoundsException aio) {
+            System.out.println("Please re-check the city and country you entered.");
+            System.exit(30);
+        }
+        return null;
+
     }
     /**
-     *
-     * @return
+     * Method to read airport files
+     * @return - hashmap of airports
      */
 
     public HashMap<ArrayList<String>, String> readAirportsFile() {

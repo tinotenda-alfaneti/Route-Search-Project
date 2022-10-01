@@ -5,36 +5,49 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Main {
-
+    /**
+     * Main method to search for route
+     * @param args -
+     */
     public static void main(String[] args) {
         Main search = new Main();
+        //loading the data files
+        Airport.collectData();
+        Route.setRoutesMap(Route.readRoutesFile());
+
+        //allow user to search for more routes
         while(true) {
             search.perfomSearch();
             Scanner option = new Scanner(System.in);
             System.out.print("\nDo you want to search a different route? yes/No: ");
             String userOption = option.nextLine();
-            if (userOption.equalsIgnoreCase("no")) {
+            if (userOption.equalsIgnoreCase("yes")) {
+                search.writeInputs(option);
+            } else {
                 option.close();
                 break;
-            } else {
-                search.writeInputs(option);
             }
-
-
         }
-
     }
 
+    /**
+     * Method for performing the search
+     */
     public void perfomSearch() {
         try {
             Airport.collectData();
             ReadAndWrite readOrWrite = new ReadAndWrite();
             System.out.println("Last flight: " + RouteSearch.aStar(readOrWrite.getSourceAirportCode(), readOrWrite.getDestAirportCode()));
         } catch (OutOfMemoryError oom) {
-            System.out.println("Looks like you want to go far. I ran out of memory");
+            System.out.println("Sorry, memory");
             System.out.println(oom.getMessage());
         }
     }
+
+    /**
+     * Method to write the console output to a file
+     * @param getInput - scanner to read the inputs
+     */
     public void writeInputs(Scanner getInput) {
         System.out.print("Enter the source city and country e.g Accra,Ghana : ");
         String firstLine = getInput.nextLine();
@@ -47,8 +60,5 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
     }
 }

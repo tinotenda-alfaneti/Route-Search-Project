@@ -1,5 +1,7 @@
-1. AW from ACC to TML 0 stops 
-Total flights: 1
+1. DL from ACC to JFK 0 stops 
+2. AA from JFK to YYZ 0 stops 
+3. AC from YYZ to YWG 0 stops 
+Total flights: 3
 Total additional stops: 0
-Total Distance: 446KM
+Total Distance: 10314KM
 Optimality criteria: Distance

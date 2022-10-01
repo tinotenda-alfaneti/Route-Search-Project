@@ -59,7 +59,6 @@ public class Airport {
      */
     public static double[] getLongLat(String airportCode) {
         double[] result = new double[2];
-
         if(aiportCollections.containsKey(airportCode)) {
             result[0] = aiportCollections.get(airportCode).longitude;
             result[1] = aiportCollections.get(airportCode).latitude;
